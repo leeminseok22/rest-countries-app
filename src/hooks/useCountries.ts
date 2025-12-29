@@ -12,6 +12,7 @@ export default function useCountries() {
             try {
                 setIsLoading(true);
                 const data = await countryApi.getAllCountries();
+                console.log("data: ", data);
                 setCountries(data);
             } catch (err) {
                 console.error(err);

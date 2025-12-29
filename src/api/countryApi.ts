@@ -8,4 +8,12 @@ export const countryApi = {
         );
         return response?.data;
     },
+
+    getCountryByCode: async (code: string): Promise<Country | null> => {
+        const response = await axiosClient.get<Country>(
+            `/alpha/${code}?fields=name,flags,capital,region,population,cca3,subregion,currencies,languages,borders,tld`
+        );
+
+        return response.data || null;
+    },
 };

@@ -20,3 +20,17 @@ export const ErrorMessage = styled.div`
     font-size: 1.2rem;
     margin-top: 50px;
 `;
+
+export const ControlsContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    @media (max-width: 768px) {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+`;

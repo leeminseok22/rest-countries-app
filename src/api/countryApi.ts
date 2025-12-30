@@ -16,4 +16,17 @@ export const countryApi = {
 
         return response.data || null;
     },
+    getCountriesByName: async (name: string): Promise<Country[]> => {
+        const response = await axiosClient.get<Country[]>(
+            `/name/${name}?fields=name,flags,capital,region,population,cca3`
+        );
+        return response.data;
+    },
+
+    getCountriesByRegion: async (region: string): Promise<Country[]> => {
+        const response = await axiosClient.get<Country[]>(
+            `/region/${region}?fields=name,flags,capital,region,population,cca3`
+        );
+        return response.data;
+    },
 };

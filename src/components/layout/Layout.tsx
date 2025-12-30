@@ -17,7 +17,6 @@ export default function Layout() {
         <div>
             <Header> test layout</Header>
             <Main>
-                <div>hi</div>
                 <Outlet />
             </Main>
         </div>

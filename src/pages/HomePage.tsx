@@ -13,6 +13,10 @@ export default function HomePage() {
     const [keyword, setKeyword] = useState<string>("");
     const [region, setRegion] = useState<string>("");
 
+    const handleSearch = (value: string) => {
+        setKeyword(value);
+    };
+
     const debouncedKeyword = useDebounce(keyword, 500);
 
     const { countries, isLoading, error } = useCountries(
@@ -20,30 +24,25 @@ export default function HomePage() {
         region
     );
 
-    if (isLoading) return <S.LoadingMessage>loading...</S.LoadingMessage>;
-    if (error) return <S.ErrorMessage>{error}</S.ErrorMessage>;
     return (
-        <S.Container>
-            <S.ControlsContainer>
-                <SearchInput value={keyword} onChange={setKeyword} />
+        <S.PageContainer>
+            <S.ControlsWrapper>
+                <SearchInput value={keyword} onChange={handleSearch} />
                 <RegionFilter value={region} onChange={setRegion} />
-            </S.ControlsContainer>
-            {isLoading && <S.LoadingMessage>⏳ 검색 중...</S.LoadingMessage>}
-            {error && <S.ErrorMessage>🚨 {error}</S.ErrorMessage>}
+            </S.ControlsWrapper>
 
-            {!isLoading && !error && (
+            {isLoading ? (
+                <S.LoadingMessage>
+                    ⏳ 데이터를 찾고 있습니다...
+                </S.LoadingMessage>
+            ) : error ? (
+                <S.ErrorMessage>🚨 {error}</S.ErrorMessage>
+            ) : (
                 <>
                     {countries.length === 0 ? (
                         <S.ErrorMessage>검색 결과가 없습니다.</S.ErrorMessage>
                     ) : (
-                        <div
-                            style={{
-                                display: "grid",
-                                gridTemplateColumns:
-                                    "repeat(auto-fill, minmax(250px, 1fr))",
-                                gap: "40px",
-                                width: "100%",
-                            }}>
+                        <S.CardGrid>
                             {countries.map((country) => (
                                 <CountryCard
                                     key={country.cca3}
@@ -53,10 +52,10 @@ export default function HomePage() {
                                     }
                                 />
                             ))}
-                        </div>
+                        </S.CardGrid>
                     )}
                 </>
             )}
-        </S.Container>
+        </S.PageContainer>
     );
 }

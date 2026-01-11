@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 import { countryApi } from "../api/countryApi";
 import type { Country } from "../types/country";
+import axios from "axios";
 
 export default function useCountries(searchKeyword: string, region: string) {
     const [countries, setCountries] = useState<Country[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
@@ -22,14 +23,17 @@ export default function useCountries(searchKeyword: string, region: string) {
                     data = await countryApi.getAllCountries();
                 }
 
-                console.log("data: ", data);
                 setCountries(data);
-            } catch (err) {
-                if (err.response && err.response.status === 404) {
+            } catch (err: unknown) {
+                if (axios.isAxiosError(err)) {
+                    const errorStatus = err.response?.status;
                     setCountries([]);
+                    setError(
+                        errorStatus === 404 ? null : "오류가 발생했습니다."
+                    );
                 } else {
-                    console.error(err);
-                    setError("error error");
+                    console.log(err);
+                    setError("오류가 발생했습니다.");
                 }
             } finally {
                 setIsLoading(false);

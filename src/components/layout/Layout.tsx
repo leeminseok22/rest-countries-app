@@ -1,12 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-
-const Header = styled.header`
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    font-weight: bold;
-`;
+import Header from "./Header";
 
 const Main = styled.main`
     padding: 20px;
@@ -15,7 +9,7 @@ const Main = styled.main`
 export default function Layout() {
     return (
         <div>
-            <Header> test layout</Header>
+            <Header />
             <Main>
                 <Outlet />
             </Main>

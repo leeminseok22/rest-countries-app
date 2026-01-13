@@ -1,6 +1,6 @@
 import { createGlobalStyle } from "styled-components";
-
-const GlobalStyle = createGlobalStyle`
+import type { Theme } from "./theme";
+const GlobalStyle = createGlobalStyle<{ theme: Theme }>`
   * {
     margin: 0;
     padding: 0;
@@ -9,8 +9,11 @@ const GlobalStyle = createGlobalStyle`
 
   body {
     font-family: 'Helvetica Neue', Arial, sans-serif;
-    background-color: #fafafa;
-    color: #111;
+
+    background-color: ${(props) => props.theme.colors.background};
+    color: ${(props) => props.theme.colors.text};
+
+    transition: background-color 0.2s ease, color 0.2s ease;
   }
 
   a {
@@ -19,4 +22,4 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-export default GlobalStyle;
+export { GlobalStyle };
